@@ -7,12 +7,18 @@ function Rectangle (coorX, coorY, width, height) {
     this.width = width || 0;
     this.height = height || 0;
 
-    this.tostring = function () {
+    this.reset = function () {
+        Rectangle.prototype.reset.call(this);
+        this.width = 0;
+        this.height = 0;
+    };
+
+    this.toString = function () {
         var string = ("Rectangle[x: " + this.x + ", y: " + this.y + ", width: " + this.width + ", height: " + this.height + "]");
         return string;
     };
 
 };
 
-Rectangle.prototype = Object.create(Point.prototype);
+Rectangle.prototype = new Point();
 Rectangle.prototype.constructor = Rectangle;
