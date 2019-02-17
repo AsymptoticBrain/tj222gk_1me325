@@ -3,12 +3,13 @@ Main = {
         var result = document.getElementById("result");
 
         var p = new Point(10, 10);
-        //var r = new Rectangle(50, 50, 100, 200);
+        var r = new Rectangle(50, 50, 100, 200);
         //    r.reset();
 
         console.log(p.toString());
-        result.innerHTML = (p.toString());
-        //r.toString();
+        result.innerHTML = (p.toString() + "<br/>");
+        console.log(r.toString());
+        result.innerHTML += (r.toString());
     }
 }
 
