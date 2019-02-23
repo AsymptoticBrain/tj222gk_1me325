@@ -8,11 +8,7 @@ Application.prototype = {
 /*
     <div class="dice-window-wrapper">
 				
-    <div class="dice-menubar-wrapper">
-    
-        <div class="close"></div>
-    
-    </div>
+   
     <div class="dice-toolbar-wrapper">
     
         <ul>
@@ -62,13 +58,25 @@ Application.prototype = {
     },
 
     createObject : function () {
-        var parent = document.getElementById("page-content-wrapper");
-        var element = document.createElement("div");
-        element.className = "page-content-wrapper"
+        var pageConWr = document.getElementById("page-content-wrapper");
 
-        element.innerHTML = "test";
-
-        parent.appendChild(element);
-
+        this.diceWinWr = NewElem.create("div", "dice-window-wrapper");
+            pageConWr.appendChild(this.diceWinWr);
+        this.diceMenWr = NewElem.create("div", "dice-menu-wrapper");
+            this.diceWinWr.appendChild(this.diceMenWr);
+        this.closeDiv = NewElem.create("div", "close");
+            this.diceMenWr.appendChild(this.closeDiv);
+        this.diceTooWr = NewElem.create("div", "dice-toolbar-wrapper");
+            this.diceWinWr.appendChild(this.diceTooWr);
+        this.ulDiv = NewElem.create("ul");
+            this.diceTooWr.appendChild(ulDiv);
+        this.addDiv = NewElem.create("li", "add");
+            ulDiv.appendChild(this.addDiv);
+        var removeDiv = NewElem.create("li", "remove");
+            ulDiv.appendChild(removeDiv);
+        var rollDiv = NewElem.create("li", "roll");
+            ulDiv.appendChild(rollDiv);
+        var liDiv = NewElem.create("li");
+            ulDiv.appendChild(liDiv);
     }
 }
