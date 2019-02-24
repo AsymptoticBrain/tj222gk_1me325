@@ -14,8 +14,8 @@ var Main = {
         }, 
 
     newApplication : function() {
-        var appWindow = new Application();
-        appWindow.init();
+       new Application();
+        //appWindow.init();
     },
 
     newClock : function() {

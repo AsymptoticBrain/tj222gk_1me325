@@ -1,38 +1,12 @@
 function Application() {
-    this.value = 1;
+    this.init();
 
 }
 
 Application.prototype = {
-    constructor : Application, 
+    constructor : Application,
 /*
-    <div class="dice-window-wrapper">
-				
-   
-    <div class="dice-toolbar-wrapper">
     
-        <ul>
-        
-            <li class="add"></li>
-            <li class="remove"></li>
-            <li class="roll"></li>
-            <li>
-            
-                <ul class="dice-toolbar-counter-wrapper">
-                
-                    <li class="zero"></li>
-                    <li class="zero"></li>
-                    <li class="zero"></li>
-                    <li class="zero"></li>
-                    <li class="zero"></li>
-                
-                </ul>
-            
-            </li>
-            
-        </ul>
-    
-    </div>
     <div class="dice-content-wrapper">
     
         <ul>
@@ -54,11 +28,15 @@ Application.prototype = {
 */
 
     init : function () {
-        this.createObject()
+        this.createObject(); 
     },
 
     createObject : function () {
 
+        // Reference to the instance of the object.
+        var _this = this;
+
+        // Reference to body element where the application is created.
         var contentWrapper  = document.getElementById("page-content-wrapper");
 
         // Window container for application.
@@ -84,9 +62,13 @@ Application.prototype = {
             this.counterZero    = NewElem.create(this.counterUl, "li", "class", "zero");
         }
 
-	    // Window for the gameboard where the dice go.
-	    this.gameboard     = NewElem.create(this.windowWrapper, "div", "class", "dice-content-wrapper");
-	    this.gameboardUl   = NewElem.create(this.gameboard, "ul");
-
+	    // Window for the content where the dice go.
+	    this.content       = NewElem.create(this.windowWrapper, "div", "class", "dice-content-wrapper");
+        this.contentUl     = NewElem.create(this.content, "ul");
+        
+        // Add eventlisteners
+        this.closeBtn.addEventListener("click", function () {
+                _this.windowWrapper.parentNode.removeChild(_this.windowWrapper); });
+                
     }
-}
+};
