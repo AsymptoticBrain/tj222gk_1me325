@@ -58,25 +58,35 @@ Application.prototype = {
     },
 
     createObject : function () {
-        var pageConWr = document.getElementById("page-content-wrapper");
 
-        this.diceWinWr = NewElem.create("div", "dice-window-wrapper");
-            pageConWr.appendChild(this.diceWinWr);
-        this.diceMenWr = NewElem.create("div", "dice-menu-wrapper");
-            this.diceWinWr.appendChild(this.diceMenWr);
-        this.closeDiv = NewElem.create("div", "close");
-            this.diceMenWr.appendChild(this.closeDiv);
-        this.diceTooWr = NewElem.create("div", "dice-toolbar-wrapper");
-            this.diceWinWr.appendChild(this.diceTooWr);
-        this.ulDiv = NewElem.create("ul");
-            this.diceTooWr.appendChild(ulDiv);
-        this.addDiv = NewElem.create("li", "add");
-            ulDiv.appendChild(this.addDiv);
-        var removeDiv = NewElem.create("li", "remove");
-            ulDiv.appendChild(removeDiv);
-        var rollDiv = NewElem.create("li", "roll");
-            ulDiv.appendChild(rollDiv);
-        var liDiv = NewElem.create("li");
-            ulDiv.appendChild(liDiv);
+        var contentWrapper  = document.getElementById("page-content-wrapper");
+
+        // Window container for application.
+        this.windowWrapper  = NewElem.create(contentWrapper, "div", "class", "dice-window-wrapper");
+
+        // Window menu with close button.
+        this.menuWrapper    = NewElem.create(this.windowWrapper, "div", "class", "dice-menubar-wrapper");
+        this.closeBtn       = NewElem.create(this.menuWrapper, "div", "class", "close");
+
+        // Window toolbar with dice controls.
+        this.toolbarWrapper = NewElem.create(this.windowWrapper, "div", "class", "dice-toolbar-wrapper");
+        this.toolbarUl      = NewElem.create(this.toolbarWrapper, "ul");
+        this.addBtn         = NewElem.create(this.toolbarUl, "li", "class", "add");
+        this.removeBtn      = NewElem.create(this.toolbarUl, "li", "class", "remove");
+        this.rollBtn        = NewElem.create(this.toolbarUl, "li", "class", "roll");
+
+        // Window counter for total of pips.
+        this.counterLi      = NewElem.create(this.toolbarUl, "li");
+        this.counterUl      = NewElem.create(this.counterLi, "ul", "class", "dice-toolbar-counter-wrapper");
+
+        // Default counter value.
+        for (let i = 0; i < 5; i++) {
+            this.counterZero    = NewElem.create(this.counterUl, "li", "class", "zero");
+        }
+
+	    // Window for the gameboard where the dice go.
+	    this.gameboard     = NewElem.create(this.windowWrapper, "div", "class", "dice-content-wrapper");
+	    this.gameboardUl   = NewElem.create(this.gameboard, "ul");
+
     }
 }

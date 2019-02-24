@@ -1,13 +1,17 @@
 var NewElem = {
 
-    create : function (elem, className, src, alt) {
+    create : function (parent, element, attr, attrValue) {
 
-        var newElem = document.createElement(elem);
-			newElem.className = className || null;
-			newElem.src = src || null; 
-			newElem.alt = alt || null;
-		return newElem;
-        
+        var elem = document.createElement(element);
+			
+        if (attr != undefined) {
+            elem.setAttribute(attr, attrValue);
+        }
+	
+        parent.appendChild(elem);
+
+    return elem;
+    
     }
     
 };
