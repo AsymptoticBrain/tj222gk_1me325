@@ -14,7 +14,8 @@ var Main = {
         }, 
 
     newApplication : function() {
-       new Application();
+       var newApp = new Application();
+       new DragAndDrop(newApp.menuWrapper)
         //appWindow.init();
     },
 
