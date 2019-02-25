@@ -15,8 +15,7 @@ var Main = {
 
     newApplication : function() {
        var newApp = new Application();
-       new DragAndDrop(newApp.menuWrapper)
-        //appWindow.init();
+       new DragAndDrop(newApp.windowWrapper, newApp.menuWrapper)
     },
 
     newClock : function() {
