@@ -54,21 +54,41 @@ Application.prototype = {
                 that.windowWrapper.parentNode.removeChild(that.windowWrapper); });
         
 
-        this.addBtn.addEventListener("click", function(event) {that.addDie(event)});
+        this.addBtn.addEventListener("click", function() {that.addDie()});
+        this.removeBtn.addEventListener("click", function(event) {that.destroyDie(event)});
         this.rollBtn.addEventListener("click", function(event) {that.rollDie(event)});
 
                 
     }, 
 
-    addDie : function (event) {
+    //----------------------------------------------------------------------
+    // Functions for the dice button controls.
+    //----------------------------------------------------------------------
+    addDie : function () {
+
         var die = new Dice(this.contentUl);
+
         this.diceArray.push(die);
+    },
+
+    destroyDie : function(event) {
+
+        var die = this.diceArray.pop();
+
+        if ( die != undefined) {
+            die.dieDestroy();
+        }
     },
 
     rollDie : function (event) {
 
-        for (let i = 0; i < this.diceArray.length ; i++) {
-            console.log ("test");
-        };
+        this.diceArray.forEach(die => {
+            die.dieCast();
+
+        });       
+    }, 
+
+    containment : function () {
+        
     }
 };

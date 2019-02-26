@@ -94,8 +94,6 @@ DragAndDrop.prototype = {
             this.dnd_element.style.left = position.x + "px";
             this.dnd_element.style.top = position.y + "px";
 
-            console.log("x = " + event.clientX + ", y = " + position.y);
-            
         };
     }, 
 

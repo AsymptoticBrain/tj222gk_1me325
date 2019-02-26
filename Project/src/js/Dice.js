@@ -10,7 +10,7 @@
 
 function Dice (parent) {
 
-    this.die_parent = parent;
+    this.dieParent = parent;
     this.face = null;
     this.dieClass = null;
     this.die = null;
@@ -19,7 +19,7 @@ function Dice (parent) {
     // Bootstrap
     //----------------------------------------------------------------------
 
-    this.die_create();
+    this.dieCreate();
 
 }
 
@@ -27,15 +27,15 @@ Dice.prototype = {
 
     constructor : Dice, 
 
-    die_create : function() {
+    dieCreate : function() {
 
-        this.die_cast();
+        this.dieCast();
 
-        this.die = NewElem.create(this.die_parent, "li", "class", this.dieClass);
+        this.die = NewElem.create(this.dieParent, "li", "class", this.dieClass);
 
     },
 
-    die_cast : function() {
+    dieCast : function() {
 
         var faceArray = ["one", "two", "three", "four", "five", "six"];
 
@@ -43,7 +43,17 @@ Dice.prototype = {
 
         this.dieClass =  "dice dice-side-" + faceArray[this.face - 1];
 
+        // If die object exists change it's class.
+        if (this.die != null) {
+            this.die.setAttribute("class", this.dieClass);
+        }
+
+    }, 
+
+    dieDestroy : function() {
+
+        this.dieParent.removeChild(this.die); 
+
     }
 
-
-}
+};
