@@ -1,6 +1,8 @@
 function Application() {
     this.init();
 
+    this.appWindow = null;
+
     this.diceArray = [];
 
 }
@@ -9,7 +11,7 @@ Application.prototype = {
     constructor : Application,
 
     init : function () {
-        this.createObject(); 
+        this.createObject();
     },
 
     createObject : function () {
@@ -69,12 +71,16 @@ Application.prototype = {
         var die = new Dice(this.contentUl);
 
         this.diceArray.push(die);
+        
+        var overflow = this.containment();
+        if (overflow == false){
+            console.log ("test");
+        };
     },
 
     destroyDie : function(event) {
 
         var die = this.diceArray.pop();
-
         if ( die != undefined) {
             die.dieDestroy();
         }
@@ -85,10 +91,21 @@ Application.prototype = {
         this.diceArray.forEach(die => {
             die.dieCast();
 
-        });       
+        });     
     }, 
 
     containment : function () {
-        
+
+        //this.content.style.overflow = "hidden";
+
+        if (this.content.clientHeight > this.content.scrollHeight ) {
+            this.destroyDie();
+            return true;
+        } else {
+            return false;
+        }
+
     }
+
+
 };

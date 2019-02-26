@@ -11,9 +11,10 @@
 function Dice (parent) {
 
     this.dieParent = parent;
+
+    this.die = null;
     this.face = null;
     this.dieClass = null;
-    this.die = null;
 
     //----------------------------------------------------------------------
     // Bootstrap
