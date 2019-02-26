@@ -55,7 +55,8 @@ DragAndDrop.prototype = {
         // Event listeners for the window allowing dragging inside the whole window and register mouseup event 
         // outside the actual window.
         window.addEventListener("mousemove", function(event) {that.dnd_onDrag(event)});
-        window.addEventListener("mouseup", function(event) {that.dnd_stopDrag(event)});
+        window.addEventListener("mouseup", function(event) {that.dnd_outOfBounds(event)});
+    
 
         // Change the style of the cursor indicating that it cab be grabbed.
         this.dnd_anchor.style.cursor = "grab"; 
@@ -86,15 +87,15 @@ DragAndDrop.prototype = {
         if (this.dnd_active === true) {
             var position = {
                 x : event.clientX - (this.dnd_origin.x - this.dnd_offset.x),
-                y : event.clientY - (this.dnd_origin.y - this.dnd_offset.y),
+                y : event.clientY - (this.dnd_origin.y - this.dnd_offset.y)
             };
-    
-            if (position.x >= 0) {
-                this.dnd_element.style.left = position.x + "px";
-            }
-            if (position.y >= 0) {
-                this.dnd_element.style.top = position.y + "px";
-            }
+
+            
+            this.dnd_element.style.left = position.x + "px";
+            this.dnd_element.style.top = position.y + "px";
+
+            console.log("x = " + event.clientX + ", y = " + position.y);
+            
         };
     }, 
 
@@ -106,7 +107,31 @@ DragAndDrop.prototype = {
 
         this.dnd_element.style.opacity = 1.0;
         this.dnd_anchor.style.cursor = "grab";
+        this.dnd_element.style.cursor = "auto";
+
+    },
+
+    /**
+     * Function trying to simulate some boundary conditions, if mouseup is activated
+     * check if the draggable element was left outside the winow and reset its position
+     * to the closest possible x and y coordinates.
+     * 
+     * @param {*} event 
+     */
+    dnd_outOfBounds : function (event) { 
+
+        if (this.dnd_active === true) {
+            if (event.clientX < 0 ) {
+                this.dnd_element.style.left = 0 + "px";
+            }
+            if (event.clientY < 0) {
+                this.dnd_element.style.top = 0 + "px";
+            }
+            
+            this.dnd_stopDrag(event);
+        }
 
     }
+    
 };
     
