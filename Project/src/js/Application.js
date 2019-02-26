@@ -74,17 +74,16 @@ Application.prototype = {
     }, 
 
     //----------------------------------------------------------------------
-    // Functions for the dice button controls.
+    // Dice control buttons.
     //----------------------------------------------------------------------
     addDie : function () {
 
         var die = new Dice(this.contentUl);
-
         this.diceArray.push(die);
         
         var overflow = this.containment();
         if (overflow == false){
-            console.log ("test");
+            this.updateCounter();
         };
     },
 
@@ -100,10 +99,34 @@ Application.prototype = {
 
         this.diceArray.forEach(die => {
             die.dieCast();
-
         });     
     }, 
 
+    //----------------------------------------------------------------------
+    // Counter.
+    //----------------------------------------------------------------------
+
+    updateCounter : function () {
+
+        var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+        var score = 0;
+        var counter = this.counterUl.firstChild;
+
+        this.diceArray.forEach(die => {
+            score += die.face;
+        }); 
+
+        console.log("New score = " + score);
+        while (score) {
+            var digit = score % 10;
+            digit = counterArray[digit];
+            
+
+            score = Math.floor(score/10);
+            console.log(digit);
+        }
+
+    },
     /**
      * Checks if the container is full by comparing the scroll height with the height of the
      * cointainer. If the the scroll height is larger that means an object was placed outside 

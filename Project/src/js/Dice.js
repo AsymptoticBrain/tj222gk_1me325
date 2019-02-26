@@ -30,9 +30,11 @@ Dice.prototype = {
 
     dieCreate : function() {
 
+        var that = this;
         this.dieCast();
 
         this.die = NewElem.create(this.dieParent, "li", "class", this.dieClass);
+        this.die.addEventListener("click", function() {that.dieCast()});
 
     },
 
