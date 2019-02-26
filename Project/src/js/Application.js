@@ -1,3 +1,13 @@
+//--------------------------------------------------------------------------
+// Strict mode
+//--------------------------------------------------------------------------
+
+"use strict";
+
+//--------------------------------------------------------------------------
+// Public class
+//--------------------------------------------------------------------------
+
 function Application() {
     this.init();
 
@@ -94,11 +104,18 @@ Application.prototype = {
         });     
     }, 
 
+    /**
+     * Checks if the container is full by comparing the scroll height with the height of the
+     * cointainer. If the the scroll height is larger that means an object was placed outside 
+     * of the cointainer. When this happens the object is automatically destroyed and returns
+     * true, in all other cases returns false.
+     * 
+     * @returns {Boolean}
+     */
     containment : function () {
 
-        //this.content.style.overflow = "hidden";
-
-        if (this.content.clientHeight > this.content.scrollHeight ) {
+        this.content.style.overflow = "hidden";
+        if (this.contentUl.scrollHeight > this.content.clientHeight ) {
             this.destroyDie();
             return true;
         } else {
@@ -106,6 +123,5 @@ Application.prototype = {
         }
 
     }
-
 
 };
