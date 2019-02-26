@@ -79,6 +79,8 @@ Application.prototype = {
     addDie : function () {
 
         var die = new Dice(this.contentUl);
+        var that = this;
+        die.die.addEventListener("click", function() {that.updateCounter()})
         this.diceArray.push(die);
         
         var overflow = this.containment();
@@ -92,6 +94,7 @@ Application.prototype = {
         var die = this.diceArray.pop();
         if ( die != undefined) {
             die.dieDestroy();
+            this.updateCounter();
         }
     },
 
@@ -100,33 +103,42 @@ Application.prototype = {
         this.diceArray.forEach(die => {
             die.dieCast();
         });     
+        this.updateCounter();
     }, 
 
     //----------------------------------------------------------------------
     // Counter.
     //----------------------------------------------------------------------
 
+    /**
+     * Updates the counter board by running through the array of all the dice objects and
+     * adding their face values together. Loops through the counter digits and removes the
+     * final digit from the total score each loop and updates that counter class value.
+     */
     updateCounter : function () {
 
         var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
         var score = 0;
-        var counter = this.counterUl.firstChild;
+        var maxCounters = this.counterUl.children.length;
+        var counter = this.counterUl.lastChild;
 
         this.diceArray.forEach(die => {
             score += die.face;
         }); 
 
-        console.log("New score = " + score);
-        while (score) {
+        for (let i = 0; i < maxCounters; i++) {
+        
+            // Get the last digit.
             var digit = score % 10;
-            digit = counterArray[digit];
-            
 
+            // Change the class of the counter and update local variables.
+            counter.setAttribute("class", counterArray[digit]);
+            counter = counter.previousSibling;            
             score = Math.floor(score/10);
-            console.log(digit);
         }
 
     },
+    
     /**
      * Checks if the container is full by comparing the scroll height with the height of the
      * cointainer. If the the scroll height is larger that means an object was placed outside 
