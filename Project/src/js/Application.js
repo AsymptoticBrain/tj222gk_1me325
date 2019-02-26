@@ -1,31 +1,12 @@
 function Application() {
     this.init();
 
+    this.diceArray = [];
+
 }
 
 Application.prototype = {
     constructor : Application,
-/*
-    
-    <div class="dice-content-wrapper">
-    
-        <ul>
-        
-            <li class="dice dice-side-one"></li>
-            <li class="dice dice-side-two"></li>
-            <li class="dice dice-side-three"></li>
-            <li class="dice dice-side-four"></li>
-            <li class="dice dice-side-five"></li>
-            <li class="dice dice-side-six"></li>
-        
-        </ul>
-    
-    </div>
-
-</div>
-
-</div>
-*/
 
     init : function () {
         this.createObject(); 
@@ -34,7 +15,7 @@ Application.prototype = {
     createObject : function () {
 
         // Reference to the instance of the object.
-        var _this = this;
+        var that = this;
 
         // Reference to body element where the application is created.
         var contentWrapper  = document.getElementById("page-content-wrapper");
@@ -66,9 +47,28 @@ Application.prototype = {
 	    this.content       = NewElem.create(this.windowWrapper, "div", "class", "dice-content-wrapper");
         this.contentUl     = NewElem.create(this.content, "ul");
         
-        // Add eventlisteners
+        //----------------------------------------------------------------------
+        // Event listeners
+        //----------------------------------------------------------------------
         this.closeBtn.addEventListener("click", function () {
-                _this.windowWrapper.parentNode.removeChild(_this.windowWrapper); });
+                that.windowWrapper.parentNode.removeChild(that.windowWrapper); });
+        
+
+        this.addBtn.addEventListener("click", function(event) {that.addDie(event)});
+        this.rollBtn.addEventListener("click", function(event) {that.rollDie(event)});
+
                 
+    }, 
+
+    addDie : function (event) {
+        var die = new Dice(this.contentUl);
+        this.diceArray.push(die);
+    },
+
+    rollDie : function (event) {
+
+        for (let i = 0; i < this.diceArray.length ; i++) {
+            console.log ("test");
+        };
     }
 };
