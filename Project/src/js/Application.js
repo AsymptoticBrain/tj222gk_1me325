@@ -45,7 +45,7 @@ Application.prototype = {
 
         // Reference to body element where the application is created.
         var contentWrapper  = document.getElementById("page-content-wrapper");
-
+        
         // Window container for application.
         this.windowWrapper  = NewElem.create(contentWrapper, "div", "class", "dice-window-wrapper");
 
@@ -72,6 +72,10 @@ Application.prototype = {
 	    // Window for the content where the dice go.
 	    this.content       = NewElem.create(this.windowWrapper, "div", "class", "dice-content-wrapper");
         this.contentUl     = NewElem.create(this.content, "ul");
+        
+        // Change the CSS position styles so the object will always be created at the same location.
+        contentWrapper.style.position = "relative";
+        this.windowWrapper.style.position = "absolute";
         
         //----------------------------------------------------------------------
         // Event listeners
