@@ -86,6 +86,7 @@ Application.prototype = {
         var overflow = this.containment();
         if (overflow == false){
             this.updateCounter();
+            this.playSound();
         };
     },
 
@@ -95,6 +96,7 @@ Application.prototype = {
         if ( die != undefined) {
             die.dieDestroy();
             this.updateCounter();
+            this.playSound();
         }
     },
 
@@ -104,6 +106,7 @@ Application.prototype = {
             die.dieCast();
         });     
         this.updateCounter();
+        this.playSound();
     }, 
 
     //----------------------------------------------------------------------
@@ -149,14 +152,19 @@ Application.prototype = {
      */
     containment : function () {
 
-        this.content.style.overflow = "hidden";
-        if (this.contentUl.scrollHeight > this.content.clientHeight ) {
+        if (this.windowWrapper.scrollHeight > this.windowWrapper.clientHeight ) {
             this.destroyDie();
             return true;
         } else {
             return false;
         }
 
-    }
+    },
 
+    playSound : function () {
+
+        var audio = new Audio('src/wav/add.wav');
+        audio.play();
+        audio = null;
+    }
 };
