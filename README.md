@@ -4,7 +4,4 @@ Student repository for 1me325 - Object Oriented JavaScript
 
 Repository to save all code for laboratories and the final project.
 
-Branch to test VG requirements.
-
-
-Testing branch
+Branch to test VG features, inheritance and library.
