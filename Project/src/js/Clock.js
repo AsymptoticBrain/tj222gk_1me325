@@ -9,7 +9,8 @@
 //--------------------------------------------------------------------------
 
 /**
- * 
+ * Creates a clock object which takes the local time and updates the time dynamically
+ * through the use of an interval timer.
  */
 
 function Clock() {
@@ -31,7 +32,8 @@ Clock.prototype = {
     },
 
     /**
-     * 
+     * Creates the actual DOM structure of the clock, calls the NewElem class to reduce the code 
+     * when creating the DOM elements. Also adds the eventlistener to allowing closing the object.
      */
     createClock : function () {
 
@@ -85,6 +87,10 @@ Clock.prototype = {
         window.setInterval(function() {that.getTime()}, 500);
     }, 
 
+    /**
+     * Extracts the local time from the users system using the Date class and then updates the 
+     * class attribute of each counter of the clock, changing it to the correct number. 
+     */
     getTime : function () {
 
         var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];

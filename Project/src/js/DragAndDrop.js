@@ -8,7 +8,14 @@
 // Public class
 //--------------------------------------------------------------------------
 
-
+/**
+ * Class allowing the creation of a drag and drop object, requires one argument denoting
+ * which element is made draggable. Optionally one can provide a secondary argument if 
+ * only a part of the draggable element should allow the drag and drop function.
+ * 
+ * @param {*} element 
+ * @param {*} anchor 
+ */
 function DragAndDrop (element, anchor) {
 
     // Internal reference to element that we want to drag.
@@ -44,7 +51,9 @@ DragAndDrop.prototype = {
 
     constructor : DragAndDrop,
 
-    // Initializes the instance and adds the needed eventlisteners.
+    /**
+     * Initializes the instance and adds the needed eventlisteners.
+     */
     dnd_init : function() {
         var that = this;
 
@@ -63,6 +72,13 @@ DragAndDrop.prototype = {
 
     },
 
+    /**
+     * Changes the style of the cursor o show it is being dragged, also changes the opacity and 
+     * z index, the latter making sure that the dragged element is always on top. Changes draggable
+     * flag to true.
+     * 
+     * @param {*} event 
+     */
     dnd_startDrag : function(event) {
 
         // Stop default behaviour in the browser.
@@ -83,6 +99,12 @@ DragAndDrop.prototype = {
 
     },
 
+    /**
+     * Dynamically updates the position of the element by altering its top and left style. 
+     * Takes in consideration the position of the cursor when beginning the dragging event.
+     * 
+     * @param {*} event 
+     */
     dnd_onDrag : function(event) {
         if (this.dnd_active === true) {
             var position = {
@@ -97,12 +119,19 @@ DragAndDrop.prototype = {
         };
     }, 
 
+    /**
+     * Change the draggable flag to false again and returns the style back to default for its
+     * opacity and cursor.
+     * 
+     * @param {*} event 
+     */
     dnd_stopDrag : function(event) {
         // Stop default behaviour in the browser.
         event.preventDefault();
 
         this.dnd_active = false;
 
+        // returns the style back to default.
         this.dnd_element.style.opacity = 1.0;
         this.dnd_anchor.style.cursor = "grab";
         this.dnd_element.style.cursor = "auto";
