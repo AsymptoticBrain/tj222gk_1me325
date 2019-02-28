@@ -27,6 +27,7 @@ Clock.prototype = {
     // Second bootstrap, starts the creation of app window.
     init : function () {
         this.createClock();
+        this.getTime();
     },
 
     /**
@@ -80,6 +81,42 @@ Clock.prototype = {
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
                 
+    }, 
+
+    getTime : function () {
+
+        var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+        var clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
+        var time = new Date();
+
+        var localTime = [
+            time.getHours(),
+            time.getMinutes(),
+            time.getSeconds()
+        ];
+        
+        localTime.forEach(function(element, index) { 
+            if (element < 10) {
+                localTime[index] = [0, element];
+            } else {
+                let secDigit = element % 10;
+                let firDigit = Math.floor(element / 10) 
+                localTime[index] = [firDigit, secDigit];
+            }
+        });
+
+        clockCounter.forEach(function(element, index) {
+
+            var timeCounter = localTime[index]
+            //v//ar test = "this." + "element";
+
+            for ( let i = 0; i < 2; i++) {
+                var CSSindex = timeCounter[i];
+                element.childNodes[i].setAttribute("class", "clock-digit-" + counterArray[CSSindex]);
+            }
+            
+        });
+
     }
     
 };
