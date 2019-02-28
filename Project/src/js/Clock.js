@@ -13,7 +13,6 @@
  */
 
 function Clock() {
-
     
     //----------------------------------------------------------------------
     // Bootstrap
@@ -26,6 +25,7 @@ Clock.prototype = {
 
     // Second bootstrap, starts the creation of app window.
     init : function () {
+    
         this.createClock();
         this.getTime();
     },
@@ -74,13 +74,15 @@ Clock.prototype = {
         this.clockWrapper.style.position = "absolute";
         
         //----------------------------------------------------------------------
-        // Event listeners
+        // Event listeners and timer.
         //----------------------------------------------------------------------
 
         // Allows you to close the current application.
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
-                
+
+        // Allows the clock to update the time in real time
+        window.setInterval(function() {that.getTime()}, 500);
     }, 
 
     getTime : function () {
@@ -108,7 +110,6 @@ Clock.prototype = {
         clockCounter.forEach(function(element, index) {
 
             var timeCounter = localTime[index]
-            //v//ar test = "this." + "element";
 
             for ( let i = 0; i < 2; i++) {
                 var CSSindex = timeCounter[i];
