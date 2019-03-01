@@ -23,7 +23,7 @@ var Main = {
             Main.clockBtn = document.getElementById("icon-clock");
 
             Main.diceBtn.addEventListener("click", Main.newApplication);
-            Main.clockBtn.addEventListener("click", Main.newClock);
+            Main.clockBtn.addEventListener("click", function() {new Clock();});
         }, 
 
     // Creates new application window.
@@ -32,12 +32,7 @@ var Main = {
        new DragAndDrop(newApp.windowWrapper, newApp.menuWrapper)
     },
 
-    // Creates new clock window.
-    newClock : function() {
-        var newClock = new Clock();
-        //new DragAndDrop(newClock.clockWrapper, newClock.menuWrapper)
-
-    }
+    
 };
 //----------------------------------------------------------------------
 // Bootstrap

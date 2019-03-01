@@ -14,32 +14,40 @@
  */
 
 function Clock() {
+
+    DragAndDrop.call(this);
     
-    DragAndDrop.call(this, this.windowWrapper, this.menuWrapper);
     //----------------------------------------------------------------------
     // Bootstrap
     //----------------------------------------------------------------------
     this.init();
 }
 
+//----------------------------------------------------------------------
+// Inherentence from drag and drop class.
+//----------------------------------------------------------------------
 
 Clock.prototype = Object.create(DragAndDrop.prototype);
+Clock.prototype.constructor = Clock;
 
-Clock.prototype = {
-    constructor : Clock,
+
+//----------------------------------------------------------------------
+// Prototype methods for Clock class.
+//----------------------------------------------------------------------
 
     // Second bootstrap, starts the creation of app window.
-    init : function () {
+    Clock.prototype.init = function () {
     
         this.createClock();
         this.getTime();
-    },
+        Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
+    };
 
     /**
      * Creates the actual DOM structure of the clock, calls the NewElem class to reduce the code 
      * when creating the DOM elements. Also adds the eventlistener to allowing closing the object.
      */
-    createClock : function () {
+    Clock.prototype.createClock = function () {
 
         // Reference to the instance of the object.
         var that = this;
@@ -90,14 +98,13 @@ Clock.prototype = {
         // Allows the clock to update the time in real time
         window.setInterval(function() {that.getTime()}, 500);
 
-        Clock.prototype.dnd_init.call(this);
-    }, 
+    };
 
     /**
      * Extracts the local time from the users system using the Date class and then updates the 
      * class attribute of each counter of the clock, changing it to the correct number. 
      */
-    getTime : function () {
+    Clock.prototype.getTime = function () {
 
         var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
         var clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
@@ -130,6 +137,4 @@ Clock.prototype = {
             
         });
 
-    }
-    
-};
+    };
