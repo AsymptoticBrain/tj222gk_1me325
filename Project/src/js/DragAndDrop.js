@@ -16,13 +16,13 @@
  * @param {*} element 
  * @param {*} anchor 
  */
-function DragAndDrop (element, anchor) {
+function DragAndDrop () {
 
     // Internal reference to element that we want to drag.
-    this.dnd_element = element || null;
+    this.dnd_element = null;
 
     // Internal reference to element that enables the drag-and-drop functionality.
-    this.dnd_anchor = anchor || this.dnd_element;
+    this.dnd_anchor = null;
 
     // Internal reference to position of the object.
     this.dnd_origin = {
@@ -39,12 +39,6 @@ function DragAndDrop (element, anchor) {
     // Draggable or not.
     this.dnd_active = false;
 
-    //----------------------------------------------------------------------
-    // Bootstrap
-    //----------------------------------------------------------------------
-
-    this.dnd_init();
-
 }
 
 DragAndDrop.prototype = {
@@ -54,8 +48,12 @@ DragAndDrop.prototype = {
     /**
      * Initializes the instance and adds the needed eventlisteners.
      */
-    dnd_init : function() {
+    dnd_init : function(element, anchor) {
+
         var that = this;
+
+        this.dnd_element = element || null;
+        this.dnd_anchor = anchor || this.dnd_element;
 
         // Event listeners for the anchor
         this.dnd_anchor.addEventListener("mousedown", function(event) {that.dnd_startDrag(event)});
