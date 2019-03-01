@@ -88,6 +88,8 @@ Clock.prototype.constructor = Clock;
         contentWrapper.style.position = "relative";
         this.clockWrapper.style.position = "absolute";
         
+        this.counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+        this.clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
         //----------------------------------------------------------------------
         // Event listeners and timer.
         //----------------------------------------------------------------------
@@ -97,7 +99,7 @@ Clock.prototype.constructor = Clock;
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
 
         // Allows the clock to update the time in real time
-        window.setInterval(function() {that.getTime()}, function() {that.syncInterval()})
+        window.setInterval(function(){that.getTime()}, that.syncInterval())
                 
     };
 
@@ -107,9 +109,8 @@ Clock.prototype.constructor = Clock;
      */
     Clock.prototype.getTime = function () {
 
-        var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-        var clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
         var time = new Date();
+        var that = this;
 
         var localTime = [
             time.getHours(),
@@ -127,22 +128,23 @@ Clock.prototype.constructor = Clock;
             }
         });
 
-        clockCounter.forEach(function(element, index) {
+        this.clockCounter.forEach(function(element, index) {
 
             var timeCounter = localTime[index]
 
             for ( let i = 0; i < 2; i++) {
                 var CSSindex = timeCounter[i];
-                element.childNodes[i].setAttribute("class", "clock-digit-" + counterArray[CSSindex]);
+                element.childNodes[i].setAttribute("class", "clock-digit-" + that.counterArray[CSSindex]);
             }
             
         });
+
 
     };
 
     Clock.prototype.syncInterval = function () {
 
-        var ms = new Date().getMiliseconds();
+        var ms = new Date().getMilliseconds();
         console.log("is this working?")
         if (ms != 0) {
             console.log(1000-ms);
