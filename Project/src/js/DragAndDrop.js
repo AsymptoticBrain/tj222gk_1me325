@@ -9,12 +9,7 @@
 //--------------------------------------------------------------------------
 
 /**
- * Class allowing the creation of a drag and drop object, requires one argument denoting
- * which element is made draggable. Optionally one can provide a secondary argument if 
- * only a part of the draggable element should allow the drag and drop function.
- * 
- * @param {*} element 
- * @param {*} anchor 
+ * Class allowing the creation of a drag and drop object.
  */
 function DragAndDrop () {
 
@@ -46,7 +41,12 @@ DragAndDrop.prototype = {
     constructor : DragAndDrop,
 
     /**
-     * Initializes the instance and adds the needed eventlisteners.
+     * Initializes the instance and adds the needed eventlisteners, equires one argument denoting
+     * which element is made draggable. Optionally one can provide a secondary argument if 
+     * only a part of the draggable element should allow the drag and drop function.
+     * 
+     * @param {*} element 
+     * @param {*} anchor 
      */
     dnd_init : function(element, anchor) {
 
