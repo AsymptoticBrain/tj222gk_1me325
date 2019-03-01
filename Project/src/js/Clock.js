@@ -15,11 +15,15 @@
 
 function Clock() {
     
+    DragAndDrop.call(this, this.windowWrapper, this.menuWrapper);
     //----------------------------------------------------------------------
     // Bootstrap
     //----------------------------------------------------------------------
     this.init();
 }
+
+
+Clock.prototype = Object.create(DragAndDrop.prototype);
 
 Clock.prototype = {
     constructor : Clock,
@@ -85,6 +89,8 @@ Clock.prototype = {
 
         // Allows the clock to update the time in real time
         window.setInterval(function() {that.getTime()}, 500);
+
+        Clock.prototype.dnd_init.call(this);
     }, 
 
     /**

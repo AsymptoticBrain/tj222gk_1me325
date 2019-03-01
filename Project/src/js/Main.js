@@ -35,7 +35,7 @@ var Main = {
     // Creates new clock window.
     newClock : function() {
         var newClock = new Clock();
-        new DragAndDrop(newClock.clockWrapper, newClock.menuWrapper)
+        //new DragAndDrop(newClock.clockWrapper, newClock.menuWrapper)
 
     }
 };
