@@ -97,8 +97,8 @@ Clock.prototype.constructor = Clock;
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
 
         // Allows the clock to update the time in real time
-        window.setInterval(function() {that.getTime()}, 500);
-
+        window.setInterval(function() {that.getTime()}, function() {that.syncInterval()})
+                
     };
 
     /**
@@ -137,5 +137,19 @@ Clock.prototype.constructor = Clock;
             }
             
         });
+
+    };
+
+    Clock.prototype.syncInterval = function () {
+
+        var ms = new Date().getMiliseconds();
+        console.log("is this working?")
+        if (ms != 0) {
+            console.log(1000-ms);
+            return 1000 - ms;
+        } else {
+            console.log( "synced = " + ms);
+            return 1000
+        };
 
     };
