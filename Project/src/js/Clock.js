@@ -15,6 +15,7 @@
 
 function Clock() {
 
+    // Call on the drag and drop class for inheritance.
     DragAndDrop.call(this);
     
     //----------------------------------------------------------------------

@@ -22,17 +22,10 @@ var Main = {
             Main.diceBtn = document.getElementById("icon-dice");
             Main.clockBtn = document.getElementById("icon-clock");
 
-            Main.diceBtn.addEventListener("click", Main.newApplication);
+            Main.diceBtn.addEventListener("click", function() {new Application();});
             Main.clockBtn.addEventListener("click", function() {new Clock();});
-        }, 
+        } 
 
-    // Creates new application window.
-    newApplication : function() {
-       var newApp = new Application();
-       new DragAndDrop(newApp.windowWrapper, newApp.menuWrapper)
-    },
-
-    
 };
 //----------------------------------------------------------------------
 // Bootstrap

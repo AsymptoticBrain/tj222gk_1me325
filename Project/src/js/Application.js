@@ -16,6 +16,9 @@
 
 function Application() {
 
+    // Call on the drag and drop class for inheritance.
+    DragAndDrop.call(this);
+
     // Array to store all the dice being cast during the game
     this.diceArray = [];
     
@@ -23,22 +26,33 @@ function Application() {
     // Bootstrap
     //----------------------------------------------------------------------
     this.init();
-}
+};
 
-Application.prototype = {
-    constructor : Application,
+//----------------------------------------------------------------------
+// Inherentence from drag and drop class.
+//----------------------------------------------------------------------
+
+Application.prototype = Object.create(DragAndDrop.prototype);
+Application.prototype.constructor = Application;
+
+
+//----------------------------------------------------------------------
+// Prototype methods for Clock class.
+//----------------------------------------------------------------------
 
     // Second bootstrap, starts the creation of app window.
-    init : function () {
+    Application.prototype.init = function () {
+
         this.createObject();
-    },
+        Application.prototype.dnd_init.call(this, this.windowWrapper, this.menuWrapper);
+    };
 
     /**
      * Creates the actual structure of the app window through the use of DOM objects, calls
      * upon the NewElement class to reduce the amount of code. Also adds the needed event
      * listeners for all the buttons.
      */
-    createObject : function () {
+    Application.prototype.createObject = function () {
 
         // Reference to the instance of the object.
         var that = this;
@@ -91,7 +105,7 @@ Application.prototype = {
         this.rollBtn.addEventListener("click", function(event) {that.rollDie(event)});
 
                 
-    }, 
+    }; 
 
     //----------------------------------------------------------------------
     // Dice control buttons.
@@ -104,7 +118,7 @@ Application.prototype = {
      * a die verify if the maximum amount of dice has been exceeded before updating the
      * score counter.
      */
-    addDie : function () {
+    Application.prototype.addDie = function () {
 
         var die = new Dice(this.contentUl);
         var that = this;
@@ -117,34 +131,34 @@ Application.prototype = {
             // TODO: Check why the audiofile still plays even when overflow is true.
             this.playSound();
         };
-    },
+    };
 
     /**
      * Removes the final die object from the diceArray and destroys it from the 
      * field before updating the score counter.
      */
-    destroyDie : function() {
+    Application.prototype.destroyDie = function() {
 
         var die = this.diceArray.pop();
         if ( die != undefined) {
             die.dieDestroy();
             this.updateCounter();
             this.playSound();
-        }
-    },
+        };
+    };
 
     /**
      * Runs through the diceArray and recasts each die, afterwards update the
      * score counter.
      */
-    rollDie : function () {
+    Application.prototype.rollDie = function () {
 
         this.diceArray.forEach(die => {
             die.dieCast();
         });     
         this.updateCounter();
         this.playSound();
-    }, 
+    }; 
 
     //----------------------------------------------------------------------
     // Counter.
@@ -155,7 +169,7 @@ Application.prototype = {
      * adding their face values together. Loops through the counter digits and removes the
      * final digit from the total score each loop and updates that counter class value.
      */
-    updateCounter : function () {
+    Application.prototype.updateCounter = function () {
 
         var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
         var score = 0;
@@ -177,7 +191,7 @@ Application.prototype = {
             score = Math.floor(score/10);
         }
 
-    },
+    };
     
     //----------------------------------------------------------------------
     // Help functions..
@@ -191,7 +205,7 @@ Application.prototype = {
      * 
      * @returns {Boolean}
      */
-    containment : function () {
+    Application.prototype.containment = function () {
 
         if (this.windowWrapper.scrollHeight > this.windowWrapper.clientHeight ) {
             this.destroyDie();
@@ -206,10 +220,9 @@ Application.prototype = {
      * Creates a new adio file that takes advantage of the html audiotag and plays the
      * selected soundfile.
      */
-    playSound : function () {
+    Application.prototype.playSound = function () {
 
         var audio = new Audio('src/wav/add.wav');
         audio.play();
         audio = null;
-    }
-};
+    };
