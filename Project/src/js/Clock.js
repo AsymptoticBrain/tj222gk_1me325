@@ -98,8 +98,8 @@ Clock.prototype.constructor = Clock;
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
 
-        // Allows the clock to update the time in real time
-        window.setInterval(function(){that.getTime()}, that.syncInterval())
+        // Update time at regular intervals, 100 ms keeps the different clocks synced.
+        window.setInterval(function(){that.getTime()}, 100)
                 
     };
 
@@ -118,6 +118,7 @@ Clock.prototype.constructor = Clock;
             time.getSeconds()
         ];
         
+        // Loops through the time and extracts the digits
         localTime.forEach(function(element, index) { 
             if (element < 10) {
                 localTime[index] = [0, element];
@@ -128,6 +129,7 @@ Clock.prototype.constructor = Clock;
             }
         });
 
+        // Runs through the time array and changes the class attribute to show the right digit.
         this.clockCounter.forEach(function(element, index) {
 
             var timeCounter = localTime[index]
@@ -139,19 +141,5 @@ Clock.prototype.constructor = Clock;
             
         });
 
-
     };
 
-    Clock.prototype.syncInterval = function () {
-
-        var ms = new Date().getMilliseconds();
-        console.log("is this working?")
-        if (ms != 0) {
-            console.log(1000-ms);
-            return 1000 - ms;
-        } else {
-            console.log( "synced = " + ms);
-            return 1000
-        };
-
-    };
