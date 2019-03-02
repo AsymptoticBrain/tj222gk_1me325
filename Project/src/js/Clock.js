@@ -88,6 +88,8 @@ Clock.prototype.constructor = Clock;
         contentWrapper.style.position = "relative";
         this.clockWrapper.style.position = "absolute";
         
+        this.counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+        this.clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
         //----------------------------------------------------------------------
         // Event listeners and timer.
         //----------------------------------------------------------------------
@@ -96,9 +98,9 @@ Clock.prototype.constructor = Clock;
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
 
-        // Allows the clock to update the time in real time
-        window.setInterval(function() {that.getTime()}, 500);
-
+        // Update time at regular intervals, 100 ms keeps the different clocks synced.
+        window.setInterval(function(){that.getTime()}, 100)
+                
     };
 
     /**
@@ -107,9 +109,8 @@ Clock.prototype.constructor = Clock;
      */
     Clock.prototype.getTime = function () {
 
-        var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
-        var clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
         var time = new Date();
+        var that = this;
 
         var localTime = [
             time.getHours(),
@@ -117,6 +118,7 @@ Clock.prototype.constructor = Clock;
             time.getSeconds()
         ];
         
+        // Loops through the time and extracts the digits
         localTime.forEach(function(element, index) { 
             if (element < 10) {
                 localTime[index] = [0, element];
@@ -127,15 +129,17 @@ Clock.prototype.constructor = Clock;
             }
         });
 
-        clockCounter.forEach(function(element, index) {
+        // Runs through the time array and changes the class attribute to show the right digit.
+        this.clockCounter.forEach(function(element, index) {
 
             var timeCounter = localTime[index]
 
             for ( let i = 0; i < 2; i++) {
                 var CSSindex = timeCounter[i];
-                element.childNodes[i].setAttribute("class", "clock-digit-" + counterArray[CSSindex]);
+                element.childNodes[i].setAttribute("class", "clock-digit-" + that.counterArray[CSSindex]);
             }
             
         });
 
     };
+
