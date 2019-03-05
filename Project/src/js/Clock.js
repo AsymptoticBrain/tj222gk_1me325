@@ -40,7 +40,9 @@ Clock.prototype.constructor = Clock;
     Clock.prototype.init = function () {
     
         this.createClock();
+        this.clockWrapper.addEventListener("timeSync", this.getTime(), true);
         this.getTime();
+        // Allows for drag and drop of the object.
         Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
     };
 
@@ -97,9 +99,14 @@ Clock.prototype.constructor = Clock;
         // Allows you to close the current application.
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
+        
+        //this.clockWrapper.addEventListener("timeSync", console.log("test"), true);
+
+       // window.addEventListener("timeSync", alert("test"));
 
         // Update time at regular intervals, 100 ms keeps the different clocks synced.
-        window.setInterval(function(){that.getTime()}, 100)
+        //window.setInterval(function(){that.getTime()}, 100)
+    
                 
     };
 
@@ -108,6 +115,8 @@ Clock.prototype.constructor = Clock;
      * class attribute of each counter of the clock, changing it to the correct number. 
      */
     Clock.prototype.getTime = function () {
+
+        console.log("Is this firing");
 
         var time = new Date();
         var that = this;
@@ -140,6 +149,10 @@ Clock.prototype.constructor = Clock;
             }
             
         });
+
+        // Loop test
+
+        TimeSync.create();
 
     };
 
