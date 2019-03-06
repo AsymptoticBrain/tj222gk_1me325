@@ -5,16 +5,20 @@
 "use strict";
 
 //--------------------------------------------------------------------------
-// Static class
+// Public Class
 //--------------------------------------------------------------------------
 
 /**
- * See if we can make this OOJS, several variables are used all the time
+ * Creates an object that serves as a time beacon, sends out the current time in the form of 
+ * a string coupled to an event. The event is launched as close as possible when the time 
+ * turns over a second and there are 0 milliseconds on the clock. Allows for syncing of multiple
+ * clocks.
  */
 
  function TimeBeacon() {
 
         this.timer = false;
+        this.beacon = null;
         
         this.digitArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
@@ -26,19 +30,22 @@
 
         constructor : TimeBeacon,
 
+        /**
+         * Gets current milliseconds and calcuates the time for when the custom event is fired.
+         */
         syncEvent : function () {
 
             this.timer = true;
-            
+
             var that = this;
+
             // Get current time in milisecons and calculates duration for the timeout event.
             var time = new Date().getMilliseconds();
-            var offset = 5;
-            var timer = 1000 - time - offset;
+            var timer = 1000 - time;
 
             var currentTime = this.convertTime();
 
-            // Creates a new event t
+            // Creates a new event.
             let evt = new CustomEvent("sync", 
                 {
                     detail : currentTime,
@@ -49,9 +56,12 @@
             // Dispatch an event on the window DOM when the timer runs out.
             this.timer = true;
 
-            window.setTimeout(function(){window.dispatchEvent(evt); that.syncEvent()}, timer);
+            this.beacon = window.setTimeout(function(){window.dispatchEvent(evt); that.syncEvent()}, timer);
         }, 
 
+        /**
+         * Checks the current time and coverst the numbers to english strings.
+         */
         convertTime : function () {
 
             var that = this;
@@ -81,11 +91,27 @@
 
             });
 
+            // If timer is false then no timeout event is running, calls syncEVent to start.
             if (this.timer == false) {
                 this.syncEvent();
             }
 
             return localTime;
         }, 
+
+        /**
+         * Checks the document if any elements are still left that use the event, if not cancel the loop.
+         * @param {*} element 
+         */
+        checkListener : function (element) {
+
+            var elem = document.getElementsByClassName(element);
+
+            if (elem.length <= 1 ) {
+                clearTimeout(this.beacon);
+                this.timer = false;
+            };
+
+        }
 
  };

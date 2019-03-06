@@ -97,8 +97,7 @@ Clock.prototype.constructor = Clock;
         //----------------------------------------------------------------------
 
         // Allows you to close the current application.
-        this.closeBtn.addEventListener("click", function () {
-                that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
+        this.closeBtn.addEventListener("click", function (){that.destroy(that.clockWrapper)});
 
         
         // Adds an event listener for the custom event sync that triggers a time update.
@@ -111,10 +110,6 @@ Clock.prototype.constructor = Clock;
      * class attribute of each counter of the clock, changing it to the correct number. 
      */
     Clock.prototype.getTime = function (time) {
-
-        console.log(time);
-
-        console.log("Is this firing");
 
         // The parameter time is an array [(Hour, Hour), (Minute, Minute), (Second, Second)].
         var localTime = time;
@@ -131,6 +126,14 @@ Clock.prototype.constructor = Clock;
             }
             
         });
+
+    };
+
+    Clock.prototype.destroy = function (element) {
+
+        Main.synctime.checkListener("clock-window-wrapper");
+    
+        element.parentNode.removeChild(element);
 
     };
 

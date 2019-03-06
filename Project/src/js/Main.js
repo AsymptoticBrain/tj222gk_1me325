@@ -17,7 +17,8 @@ var Main = {
 
         /**
          * Bootstrap function, adds eventlisteners to the buttons in the menubar to allow
-         * the creation of application and clock objects.
+         * the creation of application and clock objects, Also creates an object that sends
+         * a timed event to keep clocks synced.
          */
         init: function () {
                 Main.diceBtn = document.getElementById("icon-dice");
@@ -27,7 +28,6 @@ var Main = {
                 Main.clockBtn.addEventListener("click", function () { new Clock(); });
 
                 Main.synctime = new TimeBeacon();
-
 
         },
 
