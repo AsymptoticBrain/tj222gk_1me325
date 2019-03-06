@@ -11,20 +11,25 @@
 
 var Main = {
 
-    diceBtn : null,
-    clockBtn : null,
-    
-    /**
-     * Bootstrap function, adds eventlisteners to the buttons in the menubar to allow
-     * the creation of application and clock objects.
-     */
-    init : function() {
-            Main.diceBtn = document.getElementById("icon-dice");
-            Main.clockBtn = document.getElementById("icon-clock");
+        diceBtn: null,
+        clockBtn: null,
+        synctime: null,
 
-            Main.diceBtn.addEventListener("click", function() {new Application();});
-            Main.clockBtn.addEventListener("click", function() {new Clock();});
-        } 
+        /**
+         * Bootstrap function, adds eventlisteners to the buttons in the menubar to allow
+         * the creation of application and clock objects, Also creates an object that sends
+         * a timed event to keep clocks synced.
+         */
+        init: function () {
+                Main.diceBtn = document.getElementById("icon-dice");
+                Main.clockBtn = document.getElementById("icon-clock");
+
+                Main.diceBtn.addEventListener("click", function () { new Application(); });
+                Main.clockBtn.addEventListener("click", function () { new Clock(); });
+
+                Main.synctime = new TimeBeacon();
+
+        },
 
 };
 //----------------------------------------------------------------------
