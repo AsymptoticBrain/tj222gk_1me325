@@ -40,8 +40,8 @@ Clock.prototype.constructor = Clock;
     Clock.prototype.init = function () {
     
         this.createClock();
-        this.clockWrapper.addEventListener("timeSync", this.getTime(), true);
-        this.getTime();
+        this.getTime(Main.synctime.convertTime());
+
         // Allows for drag and drop of the object.
         Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
     };
@@ -99,14 +99,10 @@ Clock.prototype.constructor = Clock;
         // Allows you to close the current application.
         this.closeBtn.addEventListener("click", function () {
                 that.clockWrapper.parentNode.removeChild(that.clockWrapper);});
+
         
-        //this.clockWrapper.addEventListener("timeSync", console.log("test"), true);
-
-       // window.addEventListener("timeSync", alert("test"));
-
-        // Update time at regular intervals, 100 ms keeps the different clocks synced.
-        //window.setInterval(function(){that.getTime()}, 100)
-    
+        // Adds an event listener for the custom event sync that triggers a time update.
+        window.addEventListener("sync", function(event){that.getTime(event.detail)});
                 
     };
 
@@ -114,29 +110,15 @@ Clock.prototype.constructor = Clock;
      * Extracts the local time from the users system using the Date class and then updates the 
      * class attribute of each counter of the clock, changing it to the correct number. 
      */
-    Clock.prototype.getTime = function () {
+    Clock.prototype.getTime = function (time) {
+
+        console.log(time);
 
         console.log("Is this firing");
 
-        var time = new Date();
-        var that = this;
-
-        var localTime = [
-            time.getHours(),
-            time.getMinutes(),
-            time.getSeconds()
-        ];
-        
-        // Loops through the time and extracts the digits
-        localTime.forEach(function(element, index) { 
-            if (element < 10) {
-                localTime[index] = [0, element];
-            } else {
-                let secDigit = element % 10;
-                let firDigit = Math.floor(element / 10) 
-                localTime[index] = [firDigit, secDigit];
-            }
-        });
+        // The parameter time is an array [(Hour, Hour), (Minute, Minute), (Second, Second)].
+        var localTime = time;
+    
 
         // Runs through the time array and changes the class attribute to show the right digit.
         this.clockCounter.forEach(function(element, index) {
@@ -144,15 +126,11 @@ Clock.prototype.constructor = Clock;
             var timeCounter = localTime[index]
 
             for ( let i = 0; i < 2; i++) {
-                var CSSindex = timeCounter[i];
-                element.childNodes[i].setAttribute("class", "clock-digit-" + that.counterArray[CSSindex]);
+                var CSSclass = timeCounter[i];
+                element.childNodes[i].setAttribute("class", "clock-digit-" + CSSclass);
             }
             
         });
-
-        // Loop test
-
-        TimeSync.create();
 
     };
 
