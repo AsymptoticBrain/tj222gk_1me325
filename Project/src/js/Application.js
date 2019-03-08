@@ -21,6 +21,9 @@ function Application() {
 
     // Array to store all the dice being cast during the game
     this.diceArray = [];
+
+    // Audio file used for the button sounds.
+    this.audio = new Audio('src/wav/add.wav');
     
     //----------------------------------------------------------------------
     // Bootstrap
@@ -120,15 +123,15 @@ Application.prototype.constructor = Application;
      */
     Application.prototype.addDie = function () {
 
-        var die = new Dice(this.contentUl);
+        var dieObject = new Dice(this.contentUl);
         var that = this;
-        die.die.addEventListener("click", function() {that.updateCounter()})
-        this.diceArray.push(die);
+        dieObject.die.addEventListener("click", function() {that.updateCounter()})
+        this.diceArray.push(dieObject);
         
         var overflow = this.containment();
-        if (overflow === false){
+
+        if (overflow == false){
             this.updateCounter();
-            // TODO: Check why the audiofile still plays even when overflow is true.
             this.playSound();
         };
     };
@@ -208,7 +211,8 @@ Application.prototype.constructor = Application;
     Application.prototype.containment = function () {
 
         if (this.windowWrapper.scrollHeight > this.windowWrapper.clientHeight ) {
-            this.destroyDie();
+            var die = this.diceArray.pop();
+            die.dieDestroy();
             return true;
         } else {
             return false;
@@ -222,7 +226,6 @@ Application.prototype.constructor = Application;
      */
     Application.prototype.playSound = function () {
 
-        var audio = new Audio('src/wav/add.wav');
-        audio.play();
-        audio = null;
+        this.audio.play();
+
     };
