@@ -9,17 +9,19 @@
 //--------------------------------------------------------------------------
 
 /**
- * Creates an object that serves as a time beacon, sends out the current time in the form of 
- * a string coupled to an event. The event is launched as close as possible when the time 
- * turns over a second and there are 0 milliseconds on the clock. Allows for syncing of multiple
- * clocks.
+ * Creates an object that serves as a time beacon, sends out the current time to all objects that
+ * have a listener attached, either as a string or as integers. Takes two parameters the duration 
+ * of the timer in miliseconds, default is 1 second and the format of the returned time.
+ * 
+ * @param {*} duration 
+ * @param {*} format 
  */
+ function TimeBeacon(duration, format) {
 
- function TimeBeacon() {
+        this.pulse = duration || 1000;
+        this.format = format || string;
 
-        this.timer = false;
-        this.beacon = null;
-        
+        this.timerArray = [];
         this.digitArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
  }
@@ -30,39 +32,147 @@
 
         constructor : TimeBeacon,
 
+        //--------------------------------------------------------------------------
+        // Public Methods
+        //--------------------------------------------------------------------------
+
+
         /**
-         * Gets current milliseconds and calcuates the time for when the custom event is fired.
+         * Adds an event listener to the DOM element provided as anchor and a handler function
+         * which triggers when the timer runs out. When the listener is added the event is 
+         * immediately triggered and after that at each interval.
+         * 
+         * @param {*} anchor 
+         * @param {*} handler 
          */
-        syncEvent : function () {
+        addListener : function (anchor, handler) {
 
-            this.timer = true;
+            if (anchor != undefined && typeof handler === "function") {
 
-            var that = this;
+                // Adds an eventlistener and put a reference into the timerArray.
+                anchor.addEventListener("sync", handler);
+                this.timerArray.push(anchor);
+                this._createEvent(anchor);
 
-            // Get current time in milisecons and calculates duration for the timeout event.
-            var time = new Date().getMilliseconds();
-            var timer = 1000 - time;
+                // Start the periodic events when one element is in the array to prevent multiple timers.
+                if (this.timerArray.length == 1) {
 
-            var currentTime = this.convertTime();
+                    this._timePulse();
 
-            // Creates a new event.
-            let evt = new CustomEvent("sync", 
+                }
+
+            } else {
+
+                console.log("addListener error : Undefined div-element or handler is not a function.")
+
+            }
+
+        },
+
+        /**
+         * Removes the event listener from the DOM element.
+         * 
+         * @param {*} anchor 
+         * @param {*} handler 
+         */
+        removeListener : function (anchor, handler) {
+
+            if (anchor != undefined && typeof handler === "function") {
+
+                for (let i = 0; i < this.timerArray.length; i++) {                  
+                    
+                    if ( anchor === this.timerArray[i]) {
+
+                        // Removes the eventlistener and removes the reference from the timerArray.
+                        this.timerArray[i].removeEventListener("sync", handler);
+                        this.timerArray.splice(i,1);
+
+                    }
+                }
+
+            } else {
+
+                console.log("removeListener error : Undefined div-element or handler is not a function.")
+
+            }
+
+        },
+
+        //--------------------------------------------------------------------------
+        // Private Methods
+        //--------------------------------------------------------------------------
+
+
+        /**
+         * Creates a timeOut that will launch after a certain amount of time, checks the current
+         * time in miliseconds to fire the event as accurately as possible.
+         */
+        _timePulse : function () {
+
+            if (this.timerArray.length > 0 && this.pulse > 10) {
+
+                var that = this;
+            
+                // Get current time in milisecons and calculates duration for the timeout event.
+                var time = new Date().getMilliseconds();
+                var timer = this.pulse - time;
+
+                window.setTimeout(function(){that._syncArray()}, timer);
+            }
+        },
+
+        /**
+         * Loops through the array with all the elements that have an eventlistener attached and
+         * dispatches an event to them, providing them with the current time.
+         */
+        _syncArray : function () {
+
+            if (this.timerArray.length > 0) {
+
+                var evt = this._createEvent();
+
+                for (let i = 0; i < this.timerArray.length; i++) {
+
+                    this.timerArray[i].dispatchEvent(evt);
+
+                }
+
+                this._timePulse();
+            
+            }
+        },
+
+        /**
+         * Creates the actual event that will be dispatched, sends with it the current time.
+         */
+        _createEvent : function (anchor) {
+
+            if (this.timerArray.length > 0) {
+
+                var currentTime = this._convertTime();
+
+                let evt = new CustomEvent("sync", 
                 {
-                    detail : currentTime,
-                    bubbles : true, 
-                    cancelable : true
+                    detail : currentTime
                 });
 
-            // Dispatch an event on the window DOM when the timer runs out.
-            this.timer = true;
+                if (anchor != undefined) {
 
-            this.beacon = window.setTimeout(function(){window.dispatchEvent(evt); that.syncEvent()}, timer);
-        }, 
+                    anchor.dispatchEvent(evt);
+
+                } else {
+
+                    return evt
+
+                }
+            }
+        },
 
         /**
-         * Checks the current time and coverst the numbers to english strings.
+         * Checks the current time and coverst the numbers to a string by default or as 
+         * digits if an argument was provided.
          */
-        convertTime : function () {
+        _convertTime : function () {
 
             var that = this;
             var time = new Date();
@@ -73,45 +183,35 @@
                 time.getSeconds()
             ];
         
-            // Loops through the time and extracts the digits
-            localTime.forEach(function(element, index) {
+            if (this.format == string) {
+                // Loops through the time and extracts the digits
+                localTime.forEach(function(element, index) {
 
-                var firDigit = null;
-                var secDigit = null;
+                    var firDigit = null;
+                    var secDigit = null;
 
-                if (element < 10) {
-                    firDigit = that.digitArray[0];
-                    secDigit = that.digitArray[element];
-                } else {
-                    secDigit = that.digitArray[element % 10];
-                    firDigit = that.digitArray[Math.floor(element / 10)];
-                }
+                    if (element < 10) {
+                        firDigit = that.digitArray[0];
+                        secDigit = that.digitArray[element];
+                    } else {
+                        secDigit = that.digitArray[element % 10];
+                        firDigit = that.digitArray[Math.floor(element / 10)];
+                    }
 
-                localTime[index] = [firDigit, secDigit];
+                    localTime[index] = [firDigit, secDigit];
 
-            });
+                });
 
-            // If timer is false then no timeout event is running, calls syncEVent to start.
-            if (this.timer == false) {
-                this.syncEvent();
+                return localTime;
+
+            } else if (this.format == integer) {
+
+                return localTime;
+
+            } else {
+
+                console.log("format error: Wrong format provided, only string or integer are vallid arguments.")
+
             }
-
-            return localTime;
-        }, 
-
-        /**
-         * Checks the document if any elements are still left that use the event, if not cancel the loop.
-         * @param {*} element 
-         */
-        checkListener : function (element) {
-
-            var elem = document.getElementsByClassName(element);
-
-            if (elem.length <= 1 ) {
-                clearTimeout(this.beacon);
-                this.timer = false;
-            };
-
-        }
-
+        },    
  };

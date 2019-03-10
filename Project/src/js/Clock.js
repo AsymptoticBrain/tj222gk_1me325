@@ -40,7 +40,7 @@ Clock.prototype.constructor = Clock;
     Clock.prototype.init = function () {
     
         this.createClock();
-        this.getTime(Main.synctime.convertTime());
+        //this.getTime(Main.synctime.convertTime());
 
         // Allows for drag and drop of the object.
         Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
@@ -101,7 +101,7 @@ Clock.prototype.constructor = Clock;
 
         
         // Adds an event listener for the custom event sync that triggers a time update.
-        window.addEventListener("sync", function(event){that.getTime(event.detail)});
+        Main.synctime.addListener(that.clockWrapper, function(event){that.getTime(event.detail)});
                 
     };
 
@@ -130,9 +130,8 @@ Clock.prototype.constructor = Clock;
     };
 
     Clock.prototype.destroy = function (element) {
-
-        Main.synctime.checkListener("clock-window-wrapper");
     
+        Main.synctime.removeListener(element, function(event){that.getTime(event.detail)});
         element.parentNode.removeChild(element);
 
     };
