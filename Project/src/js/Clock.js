@@ -40,7 +40,6 @@ Clock.prototype.constructor = Clock;
     Clock.prototype.init = function () {
     
         this.createClock();
-        //this.getTime(Main.synctime.convertTime());
 
         // Allows for drag and drop of the object.
         Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
