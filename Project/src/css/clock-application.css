@@ -31,6 +31,7 @@
 	top					: 2px;
 	left				: 8px;
 	background-image	: url(../img/window-closebtn.png);
+	cursor				: default;
 }
 
 .clock-menubar-wrapper .close:hover

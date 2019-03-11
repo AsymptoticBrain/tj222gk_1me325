@@ -19,7 +19,7 @@
  function TimeBeacon(duration, format) {
 
         this.pulse = duration || 1000;
-        this.format = format || string;
+        this.format = format || "string";
 
         this.timerArray = [];
         this.digitArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
@@ -183,7 +183,7 @@
                 time.getSeconds()
             ];
         
-            if (this.format == string) {
+            if (this.format == "string") {
                 // Loops through the time and extracts the digits
                 localTime.forEach(function(element, index) {
 
@@ -204,7 +204,7 @@
 
                 return localTime;
 
-            } else if (this.format == integer) {
+            } else if (this.format == "integer") {
 
                 return localTime;
 
