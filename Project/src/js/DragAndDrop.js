@@ -48,7 +48,7 @@ DragAndDrop.prototype = {
      * @param {*} element 
      * @param {*} anchor 
      */
-    dnd_init : function(element, anchor) {
+    dnd_add : function(element, anchor) {
 
         var that = this;
 

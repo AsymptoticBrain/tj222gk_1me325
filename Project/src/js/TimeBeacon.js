@@ -18,11 +18,10 @@
  */
  function TimeBeacon(duration, format) {
 
+    // Object properties.
         this.pulse = duration || 1000;
         this.format = format || "string";
-
         this.timerArray = [];
-        this.digitArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
  }
 
@@ -31,6 +30,8 @@
  TimeBeacon.prototype = {
 
         constructor : TimeBeacon,
+
+        digitArray : ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"],
 
         //--------------------------------------------------------------------------
         // Public Methods

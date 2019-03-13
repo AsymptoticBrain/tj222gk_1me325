@@ -47,7 +47,7 @@ Application.prototype.constructor = Application;
     Application.prototype.init = function () {
 
         this.createObject();
-        Application.prototype.dnd_init.call(this, this.windowWrapper, this.menuWrapper);
+        Application.prototype.dnd_add.call(this, this.windowWrapper, this.menuWrapper);
     };
 
     /**

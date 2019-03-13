@@ -42,7 +42,7 @@ Clock.prototype.constructor = Clock;
         this.createClock();
 
         // Allows for drag and drop of the object.
-        Clock.prototype.dnd_init.call(this, this.clockWrapper, this.menuWrapper);
+        Clock.prototype.dnd_add.call(this, this.clockWrapper, this.menuWrapper);
     };
 
     /**
