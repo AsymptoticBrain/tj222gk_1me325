@@ -21,9 +21,6 @@ function Application() {
 
     // Array to store all the dice being cast during the game
     this.diceArray = [];
-
-    // Audio file used for the button sounds.
-    this.audio = new Audio('src/wav/add.wav');
     
     //----------------------------------------------------------------------
     // Bootstrap
@@ -46,16 +43,19 @@ Application.prototype.constructor = Application;
     // Second bootstrap, starts the creation of app window.
     Application.prototype.init = function () {
 
-        this.createObject();
+        this._createObject();
         Application.prototype.dnd_add.call(this, this.windowWrapper, this.menuWrapper);
     };
+
+    // Audio file used for the button sounds.
+    Application.prototype.audio = new Audio('src/wav/add.wav'),
 
     /**
      * Creates the actual structure of the app window through the use of DOM objects, calls
      * upon the NewElement class to reduce the amount of code. Also adds the needed event
      * listeners for all the buttons.
      */
-    Application.prototype.createObject = function () {
+    Application.prototype._createObject = function () {
 
         // Reference to the instance of the object.
         var that = this;
@@ -103,9 +103,9 @@ Application.prototype.constructor = Application;
                 that.windowWrapper.parentNode.removeChild(that.windowWrapper);});
         
         // Event listeners to add, remove or cast dice.
-        this.addBtn.addEventListener("click", function() {that.addDie()});
-        this.removeBtn.addEventListener("click", function(event) {that.destroyDie(event)});
-        this.rollBtn.addEventListener("click", function(event) {that.rollDie(event)});
+        this.addBtn.addEventListener("click", function() {that._addDie()});
+        this.removeBtn.addEventListener("click", function(event) {that._destroyDie(event)});
+        this.rollBtn.addEventListener("click", function(event) {that._rollDie(event)});
 
                 
     }; 
@@ -121,18 +121,18 @@ Application.prototype.constructor = Application;
      * a die verify if the maximum amount of dice has been exceeded before updating the
      * score counter.
      */
-    Application.prototype.addDie = function () {
+    Application.prototype._addDie = function () {
 
         var dieObject = new Dice(this.contentUl);
         var that = this;
-        dieObject.die.addEventListener("click", function() {that.updateCounter()})
+        dieObject.die.addEventListener("click", function() {that._updateCounter()})
         this.diceArray.push(dieObject);
         
-        var overflow = this.containment();
+        var overflow = this._containment();
 
         if (overflow == false){
-            this.updateCounter();
-            this.playSound();
+            this._updateCounter();
+            this._playSound();
         };
     };
 
@@ -140,13 +140,13 @@ Application.prototype.constructor = Application;
      * Removes the final die object from the diceArray and destroys it from the 
      * field before updating the score counter.
      */
-    Application.prototype.destroyDie = function() {
+    Application.prototype._destroyDie = function() {
 
         var die = this.diceArray.pop();
         if ( die != undefined) {
             die.dieDestroy();
-            this.updateCounter();
-            this.playSound();
+            this._updateCounter();
+            this._playSound();
         };
     };
 
@@ -154,13 +154,13 @@ Application.prototype.constructor = Application;
      * Runs through the diceArray and recasts each die, afterwards update the
      * score counter.
      */
-    Application.prototype.rollDie = function () {
+    Application.prototype._rollDie = function () {
 
         this.diceArray.forEach(die => {
             die.dieCast();
         });     
-        this.updateCounter();
-        this.playSound();
+        this._updateCounter();
+        this._playSound();
     }; 
 
     //----------------------------------------------------------------------
@@ -172,7 +172,7 @@ Application.prototype.constructor = Application;
      * adding their face values together. Loops through the counter digits and removes the
      * final digit from the total score each loop and updates that counter class value.
      */
-    Application.prototype.updateCounter = function () {
+    Application.prototype._updateCounter = function () {
 
         var counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
         var score = 0;
@@ -208,7 +208,7 @@ Application.prototype.constructor = Application;
      * 
      * @returns {Boolean}
      */
-    Application.prototype.containment = function () {
+    Application.prototype._containment = function () {
 
         if (this.windowWrapper.scrollHeight > this.windowWrapper.clientHeight ) {
             var die = this.diceArray.pop();
@@ -224,7 +224,7 @@ Application.prototype.constructor = Application;
      * Creates a new adio file that takes advantage of the html audiotag and plays the
      * selected soundfile.
      */
-    Application.prototype.playSound = function () {
+    Application.prototype._playSound = function () {
 
         this.audio.play();
 
