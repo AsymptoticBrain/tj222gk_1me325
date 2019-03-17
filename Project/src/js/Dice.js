@@ -32,7 +32,9 @@ function Dice (parent) {
 
 Dice.prototype = {
 
-    constructor : Dice, 
+    constructor : Dice,
+
+    faceArray : ["one", "two", "three", "four", "five", "six"],
 
     /**
      * Creates the actual dice object with a random face value which determines the class
@@ -55,11 +57,11 @@ Dice.prototype = {
      */
     dieCast : function() {
 
-        var faceArray = ["one", "two", "three", "four", "five", "six"];
+        var pips = this.faceArray.length;
 
-        this.face = Math.floor((Math.random() * 6) + 1);
+        this.face = Math.floor((Math.random() * pips) + 1);
 
-        this.dieClass =  "dice dice-side-" + faceArray[this.face - 1];
+        this.dieClass =  "dice dice-side-" + this.faceArray[this.face - 1];
 
         // If die object exists change it's class.
         if (this.die != null) {

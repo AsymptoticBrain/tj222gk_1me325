@@ -15,6 +15,8 @@
 
 function Clock() {
 
+    this.clockCounter = null;
+
     // Call on the drag and drop class for inheritance.
     DragAndDrop.call(this);
     
@@ -44,6 +46,8 @@ Clock.prototype.constructor = Clock;
         // Allows for drag and drop of the object.
         Clock.prototype.dnd_add.call(this, this.clockWrapper, this.menuWrapper);
     };
+
+    Clock.prototype.counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
     /**
      * Creates the actual DOM structure of the clock, calls the NewElem class to reduce the code 
@@ -89,7 +93,6 @@ Clock.prototype.constructor = Clock;
         contentWrapper.style.position = "relative";
         this.clockWrapper.style.position = "absolute";
         
-        this.counterArray = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
         this.clockCounter = [this.hourWrapper, this.minuteWrapper, this.secondWrapper];
         //----------------------------------------------------------------------
         // Event listeners and timer.
@@ -113,7 +116,6 @@ Clock.prototype.constructor = Clock;
         // The parameter time is an array [(Hour, Hour), (Minute, Minute), (Second, Second)].
         var localTime = time;
     
-
         // Runs through the time array and changes the class attribute to show the right digit.
         this.clockCounter.forEach(function(element, index) {
 
